@@ -1,0 +1,29 @@
+server:
+  port: 8081
+
+logging:
+  level:
+    org.apache.kafka: INFO
+    org.springframework.kafka: INFO
+
+spring:
+  kafka:
+    consumer:
+      group-id: infinity-interceptor-group # With this, both instances would be consuming messages competetively - instead if we want them both to consume same messages change this value to ${INTERCEPTOR_ID}-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS}
+    properties:
+      spring.json.trusted.packages: org.guna.cipher.model
+
+kafka:
+  topic:
+    requests: "cipher-requests"
+
+interceptor:
+  id: ${INTERCEPTOR_ID:instance-1}
+
+cipher:
+  dispatcher:
+    callback-url: "http://cipher-dispatcher:8080/v1/dispatch/callback"

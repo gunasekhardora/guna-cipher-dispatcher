@@ -1,0 +1,24 @@
+server:
+  port: 8080
+
+spring:
+  kafka:
+    bootstrap-servers: "kafka:9092"
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: true
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.kafka: INFO
+
+kafka:
+  topic:
+    requests: "cipher-requests"
